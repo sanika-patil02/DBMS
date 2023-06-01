@@ -1,0 +1,29 @@
+-- [12]Design the DB for ”Pets” and perform following operations:
+-- Pet(pet_name,owner,sex,birth_date,death_date)
+-- 2) Display all the pets information.
+-- 3)Display all pets in ascending and descending order according to birth date.
+-- 4) Display the pet information of specific owner.
+-- 5) count the pet which have same birth_date
+
+show databases;
+create database query12;
+use query12;
+
+create table Pet(pet_name varchar(30),owner varchar(30),sex varchar(10),birth_date date,death_date date);
+insert into Pet values ('cat','sumit','female','2022-11-30','2023-02-21');
+insert into Pet values ('dog','dat','female','2022-10-30','2023-03-23');
+insert into Pet values ('cat','ram','male','2022-11-30','2023-04-11');
+insert into Pet values ('dog','ram','male','2022-09-3','2023-05-2');
+
+-- 2) Display all the pets information.
+select * from Pet;
+
+-- 3)Display all pets in ascending and descending order according to birth date.
+select * from Pet order by birth_date asc;
+select * from Pet order by birth_date desc;
+
+-- 4) Display the pet information of specific owner.
+select * from Pet where owner='ram';
+
+-- 5) count the pet which have same birth_date
+select birth_date,count(pet_name) as count from Pet group by birth_date having count>1;
