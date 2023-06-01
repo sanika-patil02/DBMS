@@ -1,0 +1,45 @@
+-- [4]Consider the following Relations. It defines Library Database Schema
+-- BOOK (Book_ISBN [PK], Title[Not Null], Publisher_ Name, Price[Check Price>0],
+-- Date_Of_Publication(Default SYSDATE), Book_Copy)
+-- BOOK_AUTHORS (Book_ISBN ,Author_Name [PK],Author_City[Default
+-- “Pune‟], Phone[UNIQUE])
+-- Design and Develop SQL DML statements for above database using MySQL
+-- 1. Create tables for above database with all constraints and Insert at least five records in each table.
+-- 2. Add field Author_email to BOOK_AUTHORS table.
+-- 3.Create a view on Book table as “DBMS BOOKS” by selecting all books titled DBMS.
+-- 4.Drop the view “DBMS BOOKS” just created
+
+show databases;
+create database query4;
+use query4;
+
+create table BOOK(Book_ISBN int, Title varchar(30) not null,Publisher_Name varchar(30),
+Price int check(price>0),Book_copy int,Date_Of_Publication date default '2002-12-31',primary key(Book_ISBN));
+insert into BOOK values(1,'let us c','Nirali',450,100,default);
+insert into BOOK values(2,'microcontroller','techknowledge',500,200,default);
+ insert into BOOK values(3,'DBMS','techknew',200,300,default);
+  insert into BOOK values(4,'dbms','nirali',500,400,default);
+   insert into BOOK values(5,'DBMS','barma',450,100,default);
+
+create table BOOK_AUTHRS(Book_ISBN int,Author_Name varchar(30) primary key,
+Author_City varchar(30) default 'pune',Phone varchar(10) unique);
+insert into BOOK_AUTHRS values(1,'s.s.kanitkar',default,1236547896);
+ insert into BOOK_AUTHRS values(2,'s.g.patil',default,7588185560);
+  insert into BOOK_AUTHRS values(3,'m.s.varma',default,8637710001);
+   insert into BOOK_AUTHRS values(4,'t.b.chopde',default,7720985560);
+    insert into BOOK_AUTHRS values(5,'g.s.shah',default,9623009890);
+    
+    -- 2. Add field Author_email to BOOK_AUTHORS table.
+    alter table BOOK_AUTHRS add Author_email varchar(20);
+    select * from BOOK_AUTHRS;
+    
+    -- 3.Create a view on Book table as “DBMS BOOKS” by selecting all books titled DBMS.
+    create view DBMS_BOOKS
+    as select * from BOOK
+    where Title = 'DBMS';
+    
+    select * from DBMS_BOOKS;
+    
+    -- 4.Drop the view “DBMS BOOKS” just created
+    drop view DBMS_BOOKS;
+
