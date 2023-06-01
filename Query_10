@@ -1,0 +1,46 @@
+-- [10] A database consists of following tables.
+-- PROJECT(PNO, PNAME, CHIEF)
+-- EMPLOYEE(EMPNO, EMPNAME)
+-- ASSIGNED(PNO,EMPNO)
+-- A. Get count of employees working on project.
+-- B. Get details of employee working on project pr002.
+-- C. Get details of employee working on project DBMS.
+
+show databases;
+create database query10;
+use query10;
+
+create table PROJECT(PNO int, PNAME varchar(30), CHIEF varchar(30));
+insert into PROJECT values(1,'DBMS','Prachi N');
+insert into PROJECT values(2,'pr002','Sarang S');
+insert into PROJECT values(3,'DSA','Keshav T');
+
+create table EMPLOYEE(EMPNO int, EMPNAME varchar(30));
+insert into  EMPLOYEE values (29,'Sanika');
+insert into  EMPLOYEE values (12,'Smita');
+insert into  EMPLOYEE values (57,'DAT');
+insert into  EMPLOYEE values (43,'Akanksha');
+insert into  EMPLOYEE values (20,'Puja');
+
+create table ASSIGNED(PNO int,EMPNO int);
+insert into ASSIGNED values(1,29);
+insert into ASSIGNED values(1,12);
+insert into ASSIGNED values(2,20);
+insert into ASSIGNED values(3,43);
+insert into ASSIGNED values(3,57);
+
+-- A. Get count of employees working on project.
+select PNO,count(EMPNO) as Employee_count from ASSIGNED group by PNO;
+
+select count(*) as Employee_Count from ASSIGNED;
+
+-- B. Get details of employee working on project pr002.
+select ASSIGNED.PNO,PROJECT.PNAME,EMPLOYEE.EMPNO,EMPLOYEE.EMPNAME from  EMPLOYEE
+inner join ASSIGNED inner join PROJECT
+on EMPLOYEE.EMPNO=ASSIGNED.EMPNO and ASSIGNED.PNO=PROJECT.PNO where PNAME='pr002'; 
+
+
+-- C. Get details of employee working on project DBMS.
+select PROJECT.PNO,PROJECT.PNAME,EMPLOYEE.EMPNO,EMPLOYEE.EMPNAME from EMPLOYEE
+inner join ASSIGNED inner join PROJECT
+on EMPLOYEE.EMPNO=ASSIGNED.EMPNO AND ASSIGNED.PNO=PROJECT.PNO where PNAME='DBMS';
