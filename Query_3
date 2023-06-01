@@ -1,0 +1,54 @@
+-- [3]Consider the following Relations. It defines Library Database Schema
+-- BOOK (Book_ISBN [PK], Title[Not Null], Publisher_ Name, Price[Check Price>0],
+-- Date_Of_Publication(Default SYSDATE), Book_Copy)
+-- BOOK_AUTHORS (Book_ISBN ,Author_Name [PK],Author_City[Default
+-- “Pune‟], Phone[UNIQUE])
+-- Design and Develop SQL DML statements for above database using MySQL
+-- 1. Create tables for above database with all constraints and Insert at least five records in each
+-- table.
+-- 2. Select Book Names from table Book whose copies are in between 10 to 15.
+-- 3. Update Book Copies as “10” whose Book Publisher is “Tata MacGraw Hill”.
+-- 4. Select the Name of Publisher who supplied maximum books.
+-- 5. Display name of publishers as per no of books published by them in ascending order.
+-- 6. Select details of Books whose Author lives in “Pune”.
+
+
+show databases;
+create database query3;
+use query3;
+
+create table BOOK (Book_ISBN int primary key,Title varchar(30) not null, Publisher_Name varchar(30),
+Price int check (Price >0),Date_Of_Publication date default '2022-01-1',Book_Copy int);
+insert into BOOK values(1,'DBMS','Technew',500,default,20);
+insert into BOOK values(2,'SE','Tata MacGraw Hill',300,default,12);
+insert into BOOK values(3,'M-3','Nirali',150,default,13);
+insert into BOOK values(4,'M-2','TechKnowledge',100,default,15);
+insert into BOOK values(5,'CG','Tech',110,default,11);
+
+create table BOOK_AUTHORS(Book_ISBN int,Author_Name varchar (30) primary key,
+Author_City varchar(10) default 'Pune', Phone varchar(10) unique,foreign key(Book_ISBN) references BOOK (Book_ISBN));
+insert into BOOK_AUTHORS values(1,'S.G.Varma',default,7588185560);
+insert into BOOK_AUTHORS values(2,'N.G.Sharma',default,9654123654);
+insert into BOOK_AUTHORS values(3,'S.S.Swami',default,4587963214);
+insert into BOOK_AUTHORS values(4,'M.S.Patil',default,7845269874);
+insert into BOOK_AUTHORS values(5,'S.M.Barma',default,7720985560);
+
+-- 2. Select Book Names from table Book whose copies are in between 10 to 15.
+select Title,Book_Copy from BOOK where Book_Copy between 10 and 15;
+
+-- 3. Update Book Copies as “10” whose Book Publisher is “Tata MacGraw Hill”.
+update BOOK set Book_Copy=10 where Publisher_Name='Tata MacGraw Hill';
+select * from BOOK;
+
+-- 4. Select the Name of Publisher who supplied maximum books.
+select Publisher_Name from BOOK where Book_Copy=(select max(Book_Copy) from BOOK);
+
+-- 5. Display name of publishers as per no of books published by them in ascending order.
+select Publisher_Name, Book_Copy from BOOK order by  Book_Copy asc;
+
+-- 6. Select details of Books whose Author lives in “Pune”.
+select BOOK.Book_ISBN,Title,Publisher_Name,Price,Date_Of_Publication,Book_Copy,BOOK_AUTHORS.Author_Name from BOOK
+inner join BOOK_AUTHORS
+on BOOK.Book_ISBN=BOOK_AUTHORS.Book_ISBN where Author_City='Pune';
+
+
