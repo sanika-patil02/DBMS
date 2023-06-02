@@ -1,0 +1,56 @@
+-- [6] Consider the following relation: Emp_company (ename, cname, salary, joiningdate, and
+-- city)
+-- 1. List the maximum salary in all companies.
+-- 2. Find maximum salary of employees of “TATA‟ Company.
+-- 3. Count the number employees working in”ACC” company.
+-- 4. Display the names of companies and the maximum salary in that company.
+-- 5. Find the average salary of each company.
+-- 6. Increase the salary of an employee by 15% who are living in city Mumbai.
+-- 7. Delete rows of the table having salary less than 5000.
+-- 8. List the names of employees who joined in Jan-2000
+
+show databases;
+create database query6;
+use query6;
+
+create table Emp_company(ename varchar(30), cname varchar(30), salary int, joiningdate date, city varchar(30));
+insert into Emp_company values('akshay','ACC',60000,'2000-01-21','Mumbai');
+insert into Emp_company values('aniket','TATA',50000,'2000-02-11','Pune');
+insert into Emp_company values('Piya','ACC',80000,'2000-01-11','Mumbai');
+insert into Emp_company values('dat','TATA',40000,'2000-03-10','kolhapur');
+insert into Emp_company values('raj','cipla',4000,'2000-10-21','kolhapur');
+insert into Emp_company values('rani','cipla',10000,'2000-5-15','satara');
+
+-- 1. List the maximum salary in all companies.
+select max(salary) from Emp_company;
+
+-- 2. Find maximum salary of employees of “TATA‟ Company.
+select max(salary) from Emp_company where cname='TATA';
+
+-- 3. Count the number employees working in”ACC” company.
+select cname,count(*) as count from Emp_company where cname='ACC';
+select cname,count(*) as count from  Emp_company group by cname having cname='ACC';
+
+-- 4. Display the names of companies and the maximum salary in that company.
+select cname,max(salary) from Emp_company group by cname ;
+
+-- 5. Find the average salary of each company.
+select cname,avg(salary) from Emp_company group by cname;
+
+-- 6. Increase the salary of an employee by 15% who are living in city Mumbai.
+update Emp_company set salary = (salary*(1.15)) where city='Mumbai';
+select * from Emp_company;
+
+-- 7. Delete rows of the table having salary less than 5000.
+delete from Emp_company where salary<5000;
+select * from Emp_company;
+
+-- 8. List the names of employees who joined in Jan-2000
+select ename,joiningdate from Emp_company where month(joiningdate)=1 and year(joiningdate)=2000;
+
+select ename,joiningdate from Emp_company where date_format(joiningdate,'%Y-%m')='2000-01';
+
+
+
+
+
