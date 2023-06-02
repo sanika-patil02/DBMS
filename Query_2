@@ -1,0 +1,63 @@
+-- [2] Design and develop below database and execute following SQL DML statements using
+-- MySQL .
+-- emp (eno, ename, bdate, title, salary, dno)
+-- proj (pno, pname, budget, dno)
+-- dept (dno, dname, mgreno)
+-- workson (eno, pno, hours)
+-- 1) Write an SQL query that returns the project number and name for projects with a budget greater
+-- than $100,000.
+-- 2) Write an SQL query that returns the employees (number and name only) who have a title of EE
+-- or SA  and salary more than $35,000.
+-- 3) Write an SQL query that returns the employees (name only) in department D1 ordered by
+-- decreasing salary.
+-- 4) Write an SQL query that returns the departments (all fields) ordered by ascending department
+-- name.
+-- 5) Write an SQL query that returns the employee name, department name, and employee title.
+
+show databases;
+create database query2;
+use query2;
+
+create table emp(eno int, ename varchar(30), bdate date, title varchar(10), salary int, dno varchar(5) ,primary key(eno));
+insert into emp values(29,'sanika','2002-12-31','SE',50000,'D1');
+insert into emp values(30,'aradhya','2005-3-1','EE',40000,'D2');
+insert into emp values(31,'sneha','2003-06-12','SA',30000,'D1');
+insert into emp values(32,'srushti','2003-11-22','EE',32000,'D3');
+
+create table proj(pno int, pname varchar(20), budget int, dno varchar(5),primary key(pno));
+insert into proj values(1,'event management',110000,'D2');
+insert into proj values(2,'chatbot',90000,'D1');
+insert into proj values(3,'password management',120000,'D3');
+
+
+create table dept(dno varchar(5), dname varchar(20), mgreno int,primary key(dno));
+insert into dept values('D1','IT',122);
+insert into dept values('D2','COMP',123);
+insert into dept values('D3','ENTC',124);
+
+create table workson (eno int, pno int, hours int);
+insert into workson values(29,2,10);
+insert into workson values(30,1,15);
+insert into workson values(31,22,25);
+insert into workson values(32,3,14);
+
+ -- 1) Write an SQL query that returns the project number and name for projects with a budget greater
+-- than $100,000.
+select pno,pname,budget from proj where budget >100000;
+
+-- 2) Write an SQL query that returns the employees (number and name only) who have a title of EE
+-- or SA  and salary more than $35,000.
+select eno,ename,title,salary from emp where title in('EE','SA')and salary>35000;
+
+-- 3) Write an SQL query that returns the employees (name only) in department D1 ordered by
+-- decreasing salary.
+select ename,dno,salary from emp where dno='D1' order by salary desc ;
+
+-- 4) Write an SQL query that returns the departments (all fields) ordered by ascending department
+-- name.
+select * from dept order by dname asc;
+
+-- 5) Write an SQL query that returns the employee name, department name, and employee title.
+select ename,dept.dname,title from emp
+inner join dept
+on emp.dno=dept.dno;
