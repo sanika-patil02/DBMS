@@ -1,0 +1,65 @@
+show databases;
+create database query15new;
+use query15new;
+create table stud_marks
+(
+name varchar(30),
+total_marks int
+
+);
+insert into stud_marks values('sanika',950);
+insert into stud_marks values('sumit',1300);
+insert into stud_marks values('rani',850);
+select * from stud_marks;
+
+create table Result
+(
+rollno int,
+Name varchar(30),
+class varchar(20),
+grade varchar(20)
+);
+insert into Result values(1,'sanika','SE IT');
+insert into  Result values(2,'sumit','SE IT');
+insert into  Result values(3,'rani','SE IT');
+select * from Result;
+
+delimiter $$
+create function func_grade(t1 int)
+returns varchar(20) deterministic
+begin
+declare grade varchar(20);
+if (t1>=990 and t1<=1500) then
+set grade='distinction';
+
+elseif (t1>=900 and t1<=989) then
+set grade='first class';
+
+elseif (t1>=825 and t1<=899) then
+set grade='second class';
+
+else 
+set grade ='fail';
+
+
+end if;
+return(grade);
+end $$
+
+select Name,total_marks,func_grade(total_marks) as Grade from stud_marks;
+
+
+*************************************************OUTPUT************************************************************
++--------+-------------+--------------+
+| Name   | total_marks | Grade        |
++--------+-------------+--------------+
+| sanika |         950 | first class  |
+| sumit  |        1300 | distinction  |
+| rani   |         850 | second class |
++--------+-------------+--------------+
+
+
+
+
+
+
