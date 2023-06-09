@@ -1,0 +1,156 @@
+#LIST ALL THE DATABASES PRESENT
+show databases;
+
+#CREATING A DATABASE
+create database information;
+
+#SELECT WHICH DATABASE TO USE
+use information;
+
+#CREATING A TABLE
+create table student(
+roll_no int,
+s_name varchar(20),
+class varchar(10),
+marks float,
+dob date
+);
+
+#DESCRIBE THE SCHEMA OF TABLE
+desc student;
+
+#INSERT VALUES INTO TABLE
+insert into student values(1,'Ram','FE',90.01,'2000-11-1');
+insert into student values(2,'Sanika','SE',92.3,'2002-12-31');
+insert into student values(3,'Riya','TE',93.4,'2002-12-3');
+insert into student values(4,'Sumit','BE',94,'2001-06-29');
+
+#SHOW THE TABLE WITH ALL VALUES
+select * from student;
+
+#Display particular column
+select roll_no,s_name from student;
+
+select * from information;
+show tables;
+
+#add row in table
+insert into student values(27,'aa','A',82,'1998-2-13');
+select * from student;
+
+#delete row from table(removing error-Toggle option in Edit->preferences->SQL Editior->safe updates(check box off) then Query Reconnect to server)
+delete from student where roll_no=27;
+select * from student;
+
+-- creating new database and then delete it 
+create database info;
+show databases;
+use information;   -- the database which will be used in that database the table which we will create is inserted 
+create table person(     
+person_id int,           
+phone_no int
+);
+select * from person;
+show tables;   -- show tables will show tables from database which will be used
+
+select * from info;
+use info;
+show tables ;
+ 
+use information;
+drop table person;
+show tables;
+
+drop database info;
+show databases;
+
+-- Add column into table(ctrl+/=comment)
+alter table student add age int;
+select * from student;
+
+-- delete column from table
+alter table student drop age;
+select * from student;
+
+-- Update values into table
+update student set marks=98 where roll_no=2;
+select * from student;
+
+-- changing the datatype 
+alter table student modify marks double;
+desc student;
+
+select * from student where marks= (select max(marks) from student);     -- nested query
+select * from student where marks in (94,98);
+select * from student where marks between 95 and 100;
+
+select * from student order by s_name asc;
+select max(marks) from student;
+select count(*) from student;
+select count(roll_no) from student;
+
+
+
+-- NOTES
+-- Select * from emp where sal > (select sal from emp where emp_name='John')     -- NESTED QUERY
+-- SQL aggregation function is used to perform the calculations on multiple rows of a single column of a table. It returns a single value.
+-- It is also used to summarize the data.
+
+-- #AVG AGGREGATE FUNCTION
+-- The AVG function is used to calculate the average value of the numeric type.
+-- AVG function returns the average of all non-Null values.
+
+-- select avg(emp_salary) from employee;
+
+-- #MAX AGGREGATION FUNCTION
+
+-- MAX function is used to find the maximum value of a certain column. 
+-- This function determines the largest value of all selected values of a column.
+
+-- select max(emp_salary) from employee;
+
+-- #MIN AGGREGATION FUNCTION 
+
+-- MIN function is used to find the minimum value of a certain column. 
+-- This function determines the smallest value of all selected values of a column.
+
+-- select min(emp_salary) from employee;
+
+-- select min(emp_salary) from employee where emp_gender='female';
+
+-- #SUM AGGREGATION FUNCTION
+
+-- Sum function is used to calculate the sum of all selected columns.
+ -- It works on numeric fields only.
+ 
+ -- select sum(emp_salary) from employee;
+ 
+ -- select sum(emp_salary) from employee where emp_gender='female';
+ 
+-- #COUNT AGGREGATION FUNCTION
+-- COUNT function is used to Count the number of rows in a database table. 
+-- It can work on both numeric and non-numeric data types.
+-- COUNT function uses the COUNT(*) that returns the
+-- count of all the rows in a specified table. 
+-- COUNT() considers duplicate and Null.
+
+-- #count number of all entry rows
+-- select count(*) from employee;
+
+-- #count number of emp_id entry rows
+-- select count(emp_id) from employee;
+
+-- #To get all info of student who get max marks
+-- select * from student where marks= (select max(marks) from student); 
+
+
+
+
+
+
+
+
+
+
+
+
