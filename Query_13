@@ -1,0 +1,84 @@
+-- [13] Write PL/SQL block to implement Curser to calculate grade of minimum 10 students.
+
+show databases;
+create database query13;
+use query13;
+
+create table Student(rollno int,stud_name varchar(20),total_marks int);
+
+insert into Student values(1,'soniya',1400);
+insert into Student values(2,'rohan',900);
+insert into Student values(3,'asmita',600);
+insert into Student values(4,'sujal',750);
+insert into Student values(5,'tushar',1350);
+select * from Student;
+
+delimiter //
+create procedure proc_grade()
+begin
+declare grade varchar(20);
+declare s_rollno int;
+declare s_name varchar(20);
+declare s_marks int;
+declare cursor_grade cursor for select rollno,stud_name,total_marks from Student;
+open cursor_grade;
+cursor_grade:loop
+fetch cursor_grade into s_rollno,s_name,s_marks;
+
+if(s_marks<=1500 and s_marks>=1000) then
+set grade='distinction';
+end if;
+
+if(s_marks<=999 and s_marks>=700) then
+set grade='First Class';
+end if;
+
+if(s_marks<=699 and s_marks>=500) then
+set grade='Higher Second Class';
+end if;
+
+select s_rollno,s_name,s_marks,grade as Grade ;
+end loop cursor_grade;
+close cursor_grade;
+end //
+
+call proc_grade();
+
+
+
+*********************************OUTPUT*******************************************************
+
++----------+--------+---------+-------------+
+| s_rollno | s_name | s_marks | Grade       |
++----------+--------+---------+-------------+
+|        1 | soniya |    1400 | distinction |
++----------+--------+---------+-------------+
+1 row in set (0.00 sec)
+
++----------+--------+---------+-------------+
+| s_rollno | s_name | s_marks | Grade       |
++----------+--------+---------+-------------+
+|        2 | rohan  |     900 | First Class |
++----------+--------+---------+-------------+
+1 row in set (0.01 sec)
+
++----------+--------+---------+---------------------+
+| s_rollno | s_name | s_marks | Grade               |
++----------+--------+---------+---------------------+
+|        3 | asmita |     600 | Higher Second Class |
++----------+--------+---------+---------------------+
+1 row in set (0.01 sec)
+
++----------+--------+---------+-------------+
+| s_rollno | s_name | s_marks | Grade       |
++----------+--------+---------+-------------+
+|        4 | sujal  |     750 | First Class |
++----------+--------+---------+-------------+
+1 row in set (0.03 sec)
+
++----------+--------+---------+-------------+
+| s_rollno | s_name | s_marks | Grade       |
++----------+--------+---------+-------------+
+|        5 | tushar |    1350 | distinction |
++----------+--------+---------+-------------+
+1 row in set (0.04 sec)
