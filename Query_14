@@ -1,0 +1,109 @@
+ -- [14] Write a database trigger on Library table. The System should keep track of the records that
+-- are being updated or deleted. The old value of updated or deleted records should be added in
+-- Library_Audit table.
+
+show databases;
+create database query14;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use query14;
+Database changed
+
+mysql> create table Library(bno int,bname varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table Library_Audit(bno int,bname varchar(20),userinfo varchar(20),actionperformed varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into Library values(1,'DBMS');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Library values(2,'M3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Library values(3,'SE');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Library values(4,'CG');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Library values(5,'PA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Library;
++------+-------+
+| bno  | bname |
++------+-------+
+|    1 | DBMS  |
+|    2 | M3    |
+|    3 | SE    |
+|    4 | CG    |
+|    5 | PA    |
++------+-------+
+5 rows in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create trigger delete_status
+    -> before delete on Library
+    -> for each row
+    -> begin
+    -> insert into Library_audit values(old.bno,old.bname,user(),'Deleted Successfully');
+    -> end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete from Library where bno=5;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Library_Audit;
++------+-------+----------------+----------------------+
+| bno  | bname | userinfo       | actionperformed      |
++------+-------+----------------+----------------------+
+|    5 | PA    | root@localhost | Deleted Successfully |
++------+-------+----------------+----------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Library;
++------+-------+
+| bno  | bname |
++------+-------+
+|    1 | DBMS  |
+|    2 | M3    |
+|    3 | SE    |
+|    4 | CG    |
++------+-------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> delimiter //
+mysql> create trigger update_status
+    -> before update on Library
+    -> for each row
+    -> begin
+    -> insert into Library_Audit values(old.bno,old.bname,user(),'Updated Successfully');
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update Library set bname='SANIKA' where bno=1;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Library;
++------+--------+
+| bno  | bname  |
++------+--------+
+|    1 | SANIKA |
+|    2 | M3     |
+|    3 | SE     |
+|    4 | CG     |
++------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Library_Audit;
++------+-------+----------------+----------------------+
+| bno  | bname | userinfo       | actionperformed      |
++------+-------+----------------+----------------------+
+|    5 | PA    | root@localhost | Deleted Successfully |
+|    1 | DBMS  | root@localhost | Updated Successfully |
++------+-------+----------------+----------------------+
+2 rows in set (0.00 sec)
